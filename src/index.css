@@ -1,0 +1,61 @@
+:root {
+  color-scheme: light;
+  --black-true: #f7f1e7;
+  --black-matte: #efe6d7;
+  --charcoal: #2f2b24;
+  --copper: #b78658;
+  --rose: #e2c9aa;
+  --emerald: #7a8d6a;
+  --soft-white: #fff9f1;
+  --text-primary: #2b2721;
+  --text-muted: #6f675c;
+  --font-display: 'Cormorant Garamond', 'Cormorant', 'Times New Roman', serif;
+  --font-body: 'Inter', 'General Sans', 'Helvetica Neue', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: radial-gradient(circle at top, #fbf6ee, #f4eadb 55%);
+  color: var(--text-primary);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+p {
+  margin: 0;
+}
