@@ -130,6 +130,23 @@
   min-height: 520px;
 }
 
+.hero-image-frame {
+  width: clamp(260px, 30vw, 430px);
+  max-height: min(620px, 72svh);
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(176, 156, 129, 0.24);
+  box-shadow: 0 28px 64px rgba(93, 75, 52, 0.16);
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  max-height: inherit;
+  object-fit: cover;
+  object-position: center;
+}
+
 .sunbeam {
   position: absolute;
   top: -10%;
@@ -1354,6 +1371,12 @@
 
   .hero-media {
     min-height: 360px;
+  }
+
+  .hero-image-frame {
+    width: min(280px, 82vw);
+    max-height: 330px;
+    border-radius: 22px;
   }
 
   .hero-scroll {
