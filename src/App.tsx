@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CSSProperties, FormEvent, PointerEvent } from 'react'
+import type { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent } from 'react'
 import { motion } from 'framer-motion'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
@@ -9,6 +9,9 @@ import whyWoman from './assets/why-woman.png'
 import './App.css'
 
 const heroWomanImage =
+  'https://raw.githubusercontent.com/Tourmaline9/Shotsmith/43e7877b97531d92a45fb271e149c06cd84b862c/ChatGPT%20Image%20Jun%2018%2C%202026%2C%2006_32_36%20AM.png'
+
+const formulationMatrixImage =
   'https://raw.githubusercontent.com/Tourmaline9/Shotsmith/43e7877b97531d92a45fb271e149c06cd84b862c/ChatGPT%20Image%20Jun%2018%2C%202026%2C%2006_39_33%20AM.png'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -145,53 +148,6 @@ const formulations: Formulation[] = [
           'Provides a clean, bioavailable matrix of zinc, essential vitamins, and enzymes that balance scalp pH and eliminate oxidative stress at the follicle level.',
       },
     ],
-  },
-]
-
-const botanicals = [
-  {
-    id: 'leaf-1',
-    style: {
-      top: '8%',
-      left: '4%',
-      width: '160px',
-      height: '160px',
-      '--tone': 'rgba(122, 141, 106, 0.45)',
-      animationDelay: '0s',
-    } as CSSProperties,
-  },
-  {
-    id: 'leaf-2',
-    style: {
-      top: '18%',
-      right: '6%',
-      width: '120px',
-      height: '120px',
-      '--tone': 'rgba(201, 143, 88, 0.35)',
-      animationDelay: '1.5s',
-    } as CSSProperties,
-  },
-  {
-    id: 'leaf-3',
-    style: {
-      bottom: '12%',
-      left: '10%',
-      width: '140px',
-      height: '140px',
-      '--tone': 'rgba(173, 188, 143, 0.4)',
-      animationDelay: '0.8s',
-    } as CSSProperties,
-  },
-  {
-    id: 'leaf-4',
-    style: {
-      bottom: '6%',
-      right: '12%',
-      width: '190px',
-      height: '190px',
-      '--tone': 'rgba(182, 108, 102, 0.3)',
-      animationDelay: '2.2s',
-    } as CSSProperties,
   },
 ]
 
@@ -377,7 +333,7 @@ function App() {
       return undefined
     }
 
-    const handleMove = (event: PointerEvent) => {
+    const handleMove = (event: globalThis.PointerEvent) => {
       const rect = hero.getBoundingClientRect()
       const x = ((event.clientX - rect.left) / rect.width) * 100
       const y = ((event.clientY - rect.top) / rect.height) * 100
@@ -422,7 +378,7 @@ function App() {
     setProgress(next)
   }
 
-  const handlePullStart = (event: PointerEvent<HTMLButtonElement>) => {
+  const handlePullStart = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (pullOpen) {
       return
     }
@@ -433,7 +389,7 @@ function App() {
     updatePull(0)
   }
 
-  const handlePullMove = (event: PointerEvent<HTMLButtonElement>) => {
+  const handlePullMove = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (!isDraggingRef.current || pullOpen) {
       return
     }
@@ -762,12 +718,11 @@ function App() {
         <div className="science-layout">
           <div className="science-visual">
             <div className="science-orbit">
-              <div className="bottle" aria-hidden="true">
-                <span className="bottle-cap" />
-                <span className="bottle-label">SHOTSMITH</span>
-                <span className="bottle-core" />
-                <span className="bottle-reflection" />
-              </div>
+              <img
+                className="science-image"
+                src={formulationMatrixImage}
+                alt="Woman holding and drinking a ShotSmith wellness bottle"
+              />
             </div>
             <div className="science-selector" role="tablist" aria-label="Choose formulation">
               {formulations.map((item) => (
