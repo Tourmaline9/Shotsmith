@@ -1,7 +1,7 @@
 .app {
   --page-gutter: clamp(24px, 6vw, 96px);
-  --section-pad: clamp(72px, 8vw, 108px);
-  --section-pad-tight: clamp(40px, 6vw, 72px);
+  --section-pad: clamp(48px, 6vw, 84px);
+  --section-pad-tight: clamp(28px, 4vw, 52px);
   background: radial-gradient(
       1200px 720px at 20% -10%,
       rgba(255, 255, 255, 0.9),
@@ -341,7 +341,7 @@
 }
 
 .scroll-panel {
-  min-height: 58svh;
+  min-height: clamp(260px, 44svh, 440px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -354,7 +354,7 @@
 }
 
 .scroll-panel.launch {
-  min-height: 68svh;
+  min-height: clamp(320px, 52svh, 560px);
   font-size: clamp(2.6rem, 8vw, 6.2rem);
   letter-spacing: 0.24em;
   background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.75), transparent 70%);
@@ -507,29 +507,28 @@
   margin: 12px 0 16px;
 }
 
-.liquid-sim {
+.why-image-wrap {
   position: relative;
-  width: min(460px, 80vw);
-  height: min(460px, 80vw);
-  border-radius: 50%;
+  width: min(520px, 86vw);
   margin: 0 auto;
-  background: radial-gradient(circle at 50% 50%, rgba(201, 143, 88, 0.2), transparent 60%);
+  border-radius: 28px;
   overflow: hidden;
+  border: 1px solid rgba(176, 156, 129, 0.24);
+  box-shadow: 0 28px 64px rgba(93, 75, 52, 0.14);
 }
 
-.liquid-core {
-  position: absolute;
-  inset: 18%;
-  border-radius: 40% 60% 50% 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(226, 201, 170, 0.75), rgba(201, 143, 88, 0.25));
-  animation: pulse 8s ease-in-out infinite;
+.why-image {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.liquid-shell {
+.why-image-wrap::after {
+  content: '';
   position: absolute;
-  inset: 8% 20%;
-  border-radius: 50%;
-  border: 1px solid rgba(176, 156, 129, 0.25);
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.06));
 }
 
 @keyframes pulse {
@@ -573,47 +572,95 @@
 
 .ingredients-list {
   display: grid;
-  gap: 36px;
-  margin-top: 40px;
+  gap: 28px;
+  margin-top: 28px;
 }
 
-.ingredient-row {
+.ingredients-collage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-  gap: 36px;
-  align-items: center;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
+  min-height: 440px;
 }
 
-.ingredient-row.reverse {
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-}
-
-.ingredient-visual {
+.ingredient-tile {
   position: relative;
-  min-height: 320px;
-  border-radius: 28px;
-  background: radial-gradient(circle at 30% 30%, var(--tone), rgba(255, 255, 255, 0.85));
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
   border: 1px solid rgba(176, 156, 129, 0.2);
-  box-shadow: 0 30px 70px rgba(93, 75, 52, 0.12);
+  box-shadow: 0 22px 48px rgba(93, 75, 52, 0.12);
   display: flex;
   align-items: flex-end;
-  padding: 24px;
-  font-family: var(--font-display);
-  font-size: 26px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(63, 56, 47, 0.7);
+  padding: 14px;
 }
 
-.ingredient-copy h3 {
+.ingredient-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.08));
+}
+
+.ingredient-tile span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.ingredient-tile.tile-1 {
+  grid-column: 1 / span 5;
+  grid-row: 1 / span 2;
+}
+
+.ingredient-tile.tile-2 {
+  grid-column: 6 / span 3;
+  grid-row: 1 / span 1;
+}
+
+.ingredient-tile.tile-3 {
+  grid-column: 9 / span 4;
+  grid-row: 1 / span 1;
+}
+
+.ingredient-tile.tile-4 {
+  grid-column: 6 / span 4;
+  grid-row: 2 / span 1;
+}
+
+.ingredient-tile.tile-5 {
+  grid-column: 10 / span 3;
+  grid-row: 2 / span 1;
+}
+
+.ingredients-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ingredient-card {
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(176, 156, 129, 0.2);
+  box-shadow: 0 14px 32px rgba(93, 75, 52, 0.08);
+}
+
+.ingredient-card h3 {
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   margin: 12px 0 12px;
 }
 
-.ingredient-copy p {
+.ingredient-card p {
   color: var(--text-muted);
-  max-width: 480px;
 }
 
 .ingredient-latin {
@@ -623,7 +670,7 @@
   color: rgba(111, 103, 92, 0.7);
 }
 
-.ingredient-copy ul {
+.ingredient-card ul {
   margin: 16px 0 0;
   padding-left: 18px;
   color: var(--text-muted);
@@ -654,26 +701,39 @@
   align-items: center;
 }
 
+.science-visual {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+}
+
 .science-orbit {
   position: relative;
-  width: 440px;
-  height: 440px;
+  width: 220px;
+  height: 340px;
   margin: 0 auto;
 }
 
 .science-orbit .bottle {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  inset: auto;
+  transform: none;
+  margin: 0 auto;
   width: 180px;
   height: 320px;
 }
 
+.science-selector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 420px;
+}
+
 .orbit-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: rotate(calc(var(--i) * 60deg)) translateX(200px) rotate(calc(var(--i) * -60deg));
+  position: static;
+  transform: none;
   padding: 8px 16px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.85);
@@ -993,7 +1053,7 @@
 
 .pull-stage {
   position: relative;
-  min-height: 70svh;
+  min-height: clamp(420px, 56svh, 760px);
   border-radius: 32px;
   overflow: hidden;
   background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9), transparent 60%),
@@ -1179,7 +1239,7 @@
 }
 
 .final {
-  min-height: 70svh;
+  min-height: auto;
   padding: var(--section-pad) var(--page-gutter);
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1244,9 +1304,8 @@
     grid-template-columns: 1fr;
   }
 
-  .ingredient-row,
-  .ingredient-row.reverse {
-    grid-template-columns: 1fr;
+  .ingredients-details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .pull-stage {
@@ -1267,69 +1326,169 @@
 }
 
 @media (max-width: 720px) {
+  .app {
+    --page-gutter: clamp(16px, 5vw, 24px);
+    --section-pad: clamp(30px, 8vw, 48px);
+    --section-pad-tight: clamp(16px, 5vw, 28px);
+  }
+
   .top-nav {
     position: static;
     background: none;
-    padding: 20px;
+    padding: 14px var(--page-gutter);
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
   }
 
   .nav-actions {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
   }
 
   .hero {
-    padding-top: 60px;
-  }
-    .modern-life-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .ingredient-visual {
-      min-height: 260px;
-    }
-
-    .pull-words {
-      font-size: clamp(1.6rem, 7vw, 3rem);
-      letter-spacing: 0.24em;
-    }
-
-    .stress-indicator {
-      padding: 8px 12px;
-    }
-
-    .stress-indicator.gut {
-      left: -10px;
-    }
-
-    .stress-indicator.skin {
-      right: -10px;
-    }
-
-    .stress-indicator.hair {
-      right: 0;
-    }
-  .precision-track {
-    grid-template-columns: 1fr;
+    padding: 42px var(--page-gutter) var(--section-pad-tight);
+    gap: 24px;
   }
 
+  .hero-media {
+    min-height: 360px;
+  }
 
+  .hero-scroll {
+    margin-top: 18px;
+  }
+
+  .scroll-panel {
+    min-height: clamp(220px, 34svh, 320px);
+    font-size: clamp(1.6rem, 9vw, 2.5rem);
+  }
+
+  .scroll-panel.launch {
+    min-height: clamp(250px, 40svh, 360px);
+    font-size: clamp(2rem, 10vw, 3.2rem);
+  }
+
+  .section-intro {
+    padding: var(--section-pad) var(--page-gutter) 16px;
+  }
+
+  .section-intro h2 {
+    margin: 0 0 10px;
+  }
+
+  .precision-track,
   .clean-grid,
   .ritual-grid,
-  .timeline {
+  .timeline,
+  .faq-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ingredients-list {
+    margin-top: 20px;
+    gap: 20px;
+  }
+
+  .ingredients-collage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: auto;
+    gap: 10px;
+  }
+
+  .ingredient-tile {
+    min-height: 160px;
+  }
+
+  .ingredient-tile.tile-1,
+  .ingredient-tile.tile-2,
+  .ingredient-tile.tile-3,
+  .ingredient-tile.tile-4,
+  .ingredient-tile.tile-5 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .ingredients-details-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ingredient-card {
+    padding: 16px;
+  }
+
+  .modern-life-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .waitlist,
+  .science,
+  .ingredients,
+  .clean,
+  .ritual,
+  .protocol,
+  .faq,
+  .pull-story,
+  .final {
+    padding-top: var(--section-pad);
+    padding-bottom: var(--section-pad);
+  }
+
+  .waitlist {
+    gap: 22px;
+  }
+
+  .waitlist-form {
+    gap: 12px;
+  }
+
+  .pull-stage {
+    min-height: clamp(360px, 52svh, 500px);
+  }
+
+  .pull-microcopy {
+    margin: 0 0 16px;
+  }
+
+  .pull-words {
+    font-size: clamp(1.6rem, 7vw, 3rem);
+    letter-spacing: 0.24em;
+  }
+
+  .stress-indicator {
+    padding: 8px 12px;
+  }
+
+  .stress-indicator.gut {
+    left: -10px;
+  }
+
+  .stress-indicator.skin {
+    right: -10px;
+  }
+
+  .stress-indicator.hair {
+    right: 0;
+  }
+
+  .final {
+    gap: 20px;
+  }
+
+  .final-copy h2 {
+    margin-bottom: 14px;
   }
 
   .science-orbit {
-    width: 320px;
-    height: 320px;
+    width: 200px;
+    height: 310px;
   }
 
-  .orbit-item {
-    transform: rotate(calc(var(--i) * 60deg)) translateX(140px)
-      rotate(calc(var(--i) * -60deg));
+  .science-orbit .bottle {
+    width: 170px;
+    height: 300px;
   }
 
   .floating-cta {

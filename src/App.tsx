@@ -5,7 +5,11 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import heroBottle from './assets/hero.png'
+import whyWoman from './assets/why-woman.png'
 import './App.css'
+
+const heroWomanImage =
+  'https://raw.githubusercontent.com/Tourmaline9/Shotsmith/43e7877b97531d92a45fb271e149c06cd84b862c/ChatGPT%20Image%20Jun%2018%2C%202026%2C%2006_39_33%20AM.png'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,6 +17,7 @@ type IngredientStory = {
   name: string
   latin: string
   tone: string
+  imageUrl: string
   note: string
   benefits: string[]
 }
@@ -33,6 +38,7 @@ const ingredients: IngredientStory[] = [
     name: 'Ginger',
     latin: 'Zingiber officinale',
     tone: 'rgba(201, 143, 88, 0.45)',
+    imageUrl: 'https://images.pexels.com/photos/5202089/pexels-photo-5202089.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=800',
     note: 'Cold-pressed for immediate digestive clarity and a clean, warm lift.',
     benefits: ['Eases bloating and tension', 'Supports gentle motility'],
   },
@@ -40,6 +46,7 @@ const ingredients: IngredientStory[] = [
     name: 'Turmeric',
     latin: 'Curcuma longa',
     tone: 'rgba(215, 168, 83, 0.45)',
+    imageUrl: 'https://images.pexels.com/photos/7988018/pexels-photo-7988018.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=800',
     note: 'A golden root known for calming inflammation and restoring balance.',
     benefits: ['Soothes internal stress', 'Supports radiant skin tone'],
   },
@@ -47,6 +54,7 @@ const ingredients: IngredientStory[] = [
     name: 'Rosemary',
     latin: 'Rosmarinus officinalis',
     tone: 'rgba(122, 141, 106, 0.45)',
+    imageUrl: 'https://images.pexels.com/photos/10098889/pexels-photo-10098889.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=800',
     note: 'Aromatic botanicals to awaken circulation and scalp vitality.',
     benefits: ['Revives scalp micro-flow', 'Supports stronger strands'],
   },
@@ -54,6 +62,7 @@ const ingredients: IngredientStory[] = [
     name: 'Amla',
     latin: 'Phyllanthus emblica',
     tone: 'rgba(173, 188, 143, 0.45)',
+    imageUrl: 'https://images.pexels.com/photos/32112805/pexels-photo-32112805.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=800',
     note: 'A bright, vitamin-rich fruit that fortifies collagen pathways.',
     benefits: ['Boosts antioxidant reserves', 'Supports luminous clarity'],
   },
@@ -61,6 +70,7 @@ const ingredients: IngredientStory[] = [
     name: 'Beetroot',
     latin: 'Beta vulgaris',
     tone: 'rgba(182, 108, 102, 0.45)',
+    imageUrl: 'https://images.pexels.com/photos/20517382/pexels-photo-20517382.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=800',
     note: 'Mineral-rich depth for oxygenation and visible glow.',
     benefits: ['Enhances cellular oxygenation', 'Encourages natural flush'],
   },
@@ -501,21 +511,9 @@ function App() {
           <p className="hero-scroll">Scroll to discover the ritual.</p>
         </div>
         <div className="hero-media">
-          <div className="sunbeam" aria-hidden="true" />
-          <div className="botanical-field" aria-hidden="true">
-            {botanicals.map((item) => (
-              <span className="botanical" key={item.id} style={item.style} />
-            ))}
+          <div className="hero-image-frame" ref={bottleRef}>
+            <img className="hero-image" src={heroWomanImage} alt="Woman holding and drinking a ShotSmith wellness bottle" />
           </div>
-          <div className="hero-bottle" ref={bottleRef}>
-            <div className="bottle" aria-hidden="true">
-              <span className="bottle-cap" />
-              <span className="bottle-label">SHOTSMITH</span>
-              <span className="bottle-core" />
-              <span className="bottle-reflection" />
-            </div>
-          </div>
-          <div className="hero-shadow" aria-hidden="true" />
         </div>
       </section>
 
@@ -710,9 +708,8 @@ function App() {
             Every drop has a function. No fillers. No dilution. No compromise.
           </p>
         </div>
-        <div className="liquid-sim" aria-hidden="true">
-          <div className="liquid-core" />
-          <div className="liquid-shell" />
+        <div className="why-image-wrap">
+          <img className="why-image" src={whyWoman} alt="Woman enjoying a ShotSmith wellness drink" />
         </div>
       </section>
 
@@ -763,24 +760,27 @@ function App() {
           </p>
         </div>
         <div className="science-layout">
-          <div className="science-orbit">
-            <div className="bottle" aria-hidden="true">
-              <span className="bottle-cap" />
-              <span className="bottle-label">SHOTSMITH</span>
-              <span className="bottle-core" />
-              <span className="bottle-reflection" />
+          <div className="science-visual">
+            <div className="science-orbit">
+              <div className="bottle" aria-hidden="true">
+                <span className="bottle-cap" />
+                <span className="bottle-label">SHOTSMITH</span>
+                <span className="bottle-core" />
+                <span className="bottle-reflection" />
+              </div>
             </div>
-            {formulations.map((item, index) => (
-              <button
-                key={item.name}
-                type="button"
-                className={`orbit-item${activeFormulation.name === item.name ? ' active' : ''}`}
-                style={{ '--i': index * 2 } as CSSProperties}
-                onClick={() => setActiveFormulation(item)}
-              >
-                {item.orbit}
-              </button>
-            ))}
+            <div className="science-selector" role="tablist" aria-label="Choose formulation">
+              {formulations.map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  className={`orbit-item${activeFormulation.name === item.name ? ' active' : ''}`}
+                  onClick={() => setActiveFormulation(item)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="science-detail">
             <p className="science-label">{activeFormulation.label}</p>
@@ -806,22 +806,28 @@ function App() {
           </p>
         </div>
         <div className="ingredients-list">
-          {ingredients.map((ingredient, index) => (
-            <motion.article
-              key={ingredient.name}
-              className={`ingredient-row${index % 2 === 1 ? ' reverse' : ''}`}
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true, amount: 0.4 }}
-            >
+          <div className="ingredients-collage" aria-hidden="true">
+            {ingredients.map((ingredient, index) => (
               <div
-                className="ingredient-visual"
-                style={{ '--tone': ingredient.tone } as CSSProperties}
+                className={`ingredient-tile tile-${index + 1}`}
+                key={ingredient.name}
+                style={{ backgroundImage: `url(${ingredient.imageUrl})` }}
               >
                 <span>{ingredient.name}</span>
               </div>
-              <div className="ingredient-copy">
+            ))}
+          </div>
+
+          <div className="ingredients-details-grid">
+            {ingredients.map((ingredient) => (
+              <motion.article
+                key={ingredient.name}
+                className="ingredient-card"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true, amount: 0.35 }}
+              >
                 <p className="ingredient-latin">{ingredient.latin}</p>
                 <h3>{ingredient.name}</h3>
                 <p>{ingredient.note}</p>
@@ -830,9 +836,9 @@ function App() {
                     <li key={benefit}>{benefit}</li>
                   ))}
                 </ul>
-              </div>
-            </motion.article>
-          ))}
+              </motion.article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -904,137 +910,6 @@ function App() {
           ))}
         </div>
       </section>
-
-      <section className="waitlist" id="waitlist">
-        <div className="waitlist-visuals" aria-hidden="true">
-          <img className="waitlist-bottle" src={heroBottle} alt="" />
-          <span className="waitlist-ingredient ginger">Ginger</span>
-          <span className="waitlist-ingredient turmeric">Turmeric</span>
-          <span className="waitlist-ingredient rosemary">Rosemary</span>
-        </div>
-        <div className="waitlist-copy">
-          <p className="eyebrow">Launching soon</p>
-          <h2>Feeling This Too?</h2>
-          <p>Join the first batch and help shape the future of precision wellness.</p>
-        </div>
-        <form className="waitlist-form" onSubmit={handleWaitlistSubmit}>
-          <label>
-            Name
-            <input type="text" name="name" placeholder="Full name" />
-          </label>
-          <label>
-            Email
-            <input type="email" name="email" placeholder="you@domain.com" />
-          </label>
-          <label>
-            Which formulation interests you most?
-            <select name="focus">
-              <option>GUT</option>
-              <option>SKIN</option>
-              <option>HAIR</option>
-              <option>All Three</option>
-            </select>
-          </label>
-          <label>
-            What is your biggest daily wellness challenge?
-            <select name="challenge">
-              <option>Digestion</option>
-              <option>Skin Health</option>
-              <option>Hair Health</option>
-              <option>Energy</option>
-              <option>Stress</option>
-              <option>Convenience</option>
-            </select>
-          </label>
-          <label>
-            What other wellness rituals would you love simplified into a daily shot?
-            <textarea name="rituals" rows={3} placeholder="Your ideas" />
-          </label>
-          <button className="btn primary" type="submit">
-            Join the First Batch
-          </button>
-        </form>
-      </section>
-
-      {hasSubmitted ? (
-        <section className="pull-story" id="modern-life">
-          <p className="pull-microcopy">
-            Thank you. Now let's talk about why modern health feels harder than ever.
-          </p>
-          <div
-            className={`pull-stage${pullOpen ? ' open' : ''}`}
-            style={{ '--pull-progress': pullProgress } as CSSProperties}
-            ref={pullTrackRef}
-          >
-            <div className="pull-background" aria-hidden="true">
-              <div className="pull-words">
-                <span style={{ opacity: wordOpacity(0.05) }}>NO TIME</span>
-                <span style={{ opacity: wordOpacity(0.25) }}>STRESS</span>
-                <span style={{ opacity: wordOpacity(0.45) }}>POOR FOOD</span>
-                <span style={{ opacity: wordOpacity(0.65) }}>SCREEN FATIGUE</span>
-              </div>
-              <div className="pull-figure">
-                <span className="figure-head" />
-                <span className="figure-body" />
-                <div
-                  className="stress-indicator gut"
-                  style={{ opacity: pullProgress > 0.22 ? 1 : 0 }}
-                >
-                  <strong>Gut</strong>
-                  <span>Bloating</span>
-                </div>
-                <div
-                  className="stress-indicator skin"
-                  style={{ opacity: pullProgress > 0.42 ? 1 : 0 }}
-                >
-                  <strong>Skin</strong>
-                  <span>Dullness</span>
-                </div>
-                <div
-                  className="stress-indicator hair"
-                  style={{ opacity: pullProgress > 0.62 ? 1 : 0 }}
-                >
-                  <strong>Hair</strong>
-                  <span>Weak follicle</span>
-                </div>
-              </div>
-              <p
-                className="pull-quote"
-                style={{ opacity: pullProgress > 0.55 ? 1 : 0 }}
-              >
-                The damage isn't always visible. Until it is.
-              </p>
-            </div>
-            <div className="pull-curtain left" aria-hidden="true" />
-            <div className="pull-curtain right" aria-hidden="true" />
-            <div className="pull-handle">
-              <button
-                type="button"
-                onPointerDown={handlePullStart}
-                onPointerMove={handlePullMove}
-                onPointerUp={handlePullEnd}
-                onPointerCancel={handlePullEnd}
-                onLostPointerCapture={handlePullEnd}
-                aria-label="Pull to reveal"
-              >
-                Pull to reveal
-              </button>
-            </div>
-            {pullOpen ? (
-              <motion.div
-                className="pull-reveal"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: 'easeOut' }}
-              >
-                <span>Modern Life</span>
-                <span>Creates</span>
-                <span>Invisible Damage</span>
-              </motion.div>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
 
       <section className="final" id="final">
         <div className="final-media" aria-hidden="true">
