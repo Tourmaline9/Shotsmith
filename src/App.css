@@ -357,6 +357,319 @@
   background: linear-gradient(180deg, #f9f3ea, #f3eadb);
 }
 
+.ritual-finder {
+  padding: var(--section-pad) var(--page-gutter);
+  background: linear-gradient(180deg, #f7f1e7, #efe2cf);
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.ritual-finder-intro {
+  position: sticky;
+  top: 96px;
+}
+
+.ritual-finder-intro h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+  line-height: 1.04;
+  margin: 14px 0 18px;
+}
+
+.ritual-finder-intro p {
+  color: var(--text-muted);
+  max-width: 460px;
+}
+
+.ritual-time {
+  display: inline-flex;
+  margin-top: 22px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(176, 156, 129, 0.24);
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--text-primary);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ritual-quiz {
+  min-height: 560px;
+  padding: clamp(22px, 4vw, 38px);
+  border-radius: 28px;
+  border: 1px solid rgba(176, 156, 129, 0.24);
+  background: radial-gradient(circle at 82% 12%, rgba(216, 176, 122, 0.2), transparent 44%),
+    rgba(255, 255, 255, 0.82);
+  box-shadow: 0 34px 76px rgba(93, 75, 52, 0.14);
+}
+
+.ritual-quiz.premium-result {
+  background: radial-gradient(circle at 70% 20%, rgba(216, 176, 122, 0.28), transparent 42%),
+    radial-gradient(circle at 18% 78%, rgba(122, 141, 106, 0.18), transparent 44%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(243, 232, 216, 0.92));
+}
+
+.ritual-progress-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ritual-progress {
+  height: 10px;
+  margin: 14px 0 34px;
+  border-radius: 999px;
+  background: rgba(176, 156, 129, 0.18);
+  overflow: hidden;
+}
+
+.ritual-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #b48354, #d8b07a);
+  transition: width 0.28s ease;
+}
+
+.ritual-question h3,
+.ritual-result h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  margin: 0 0 24px;
+}
+
+.ritual-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ritual-option {
+  min-height: 74px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(176, 156, 129, 0.24);
+  background: rgba(255, 255, 255, 0.78);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+  text-align: left;
+  font-size: 15px;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.ritual-option span {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1px solid rgba(111, 103, 92, 0.65);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.9);
+}
+
+.ritual-option:hover {
+  transform: translateY(-2px);
+  border-color: rgba(180, 131, 84, 0.62);
+  box-shadow: 0 14px 28px rgba(93, 75, 52, 0.1);
+}
+
+.ritual-slider {
+  display: grid;
+  gap: 18px;
+}
+
+.ritual-slider input {
+  width: 100%;
+  accent-color: #b48354;
+}
+
+.slider-scale {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+.slider-scale strong {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #2d2418;
+  color: #f7f1e7;
+  font-family: var(--font-display);
+  font-size: 24px;
+}
+
+.ritual-slider p,
+.ritual-result-copy p {
+  color: var(--text-muted);
+}
+
+.ritual-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+  gap: 28px;
+}
+
+.ritual-result-tag {
+  margin: -14px 0 18px;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.ritual-supports {
+  margin: 24px 0;
+}
+
+.ritual-supports span,
+.match-score span {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ritual-supports ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  display: grid;
+  gap: 7px;
+}
+
+.match-score {
+  display: inline-grid;
+  min-width: 150px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(45, 36, 24, 0.94);
+  color: #f7f1e7;
+}
+
+.match-score span {
+  color: rgba(247, 241, 231, 0.7);
+}
+
+.match-score strong {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1;
+}
+
+.ritual-result-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.ritual-result-visual {
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+}
+
+.result-bottles {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 18px;
+}
+
+.result-bottles img {
+  width: min(160px, 22vw);
+  filter: drop-shadow(0 28px 40px rgba(93, 75, 52, 0.22));
+  animation: float 8s ease-in-out infinite;
+}
+
+.result-bottles img + img {
+  animation-delay: -2s;
+}
+
+.bottle-link {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 74px;
+  height: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #b48354, transparent);
+  box-shadow: 0 0 18px rgba(180, 131, 84, 0.6);
+  animation: bottlePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes bottlePulse {
+  0%,
+  100% {
+    opacity: 0.36;
+    transform: translateX(-50%) scaleX(0.82);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1.12);
+  }
+}
+
+.wellness-snapshot {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(176, 156, 129, 0.24);
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.wellness-snapshot h4 {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.snapshot-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 120px;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 0;
+  color: var(--text-muted);
+}
+
+.snapshot-meter {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(176, 156, 129, 0.18);
+  overflow: hidden;
+}
+
+.snapshot-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2d2418, #b48354);
+}
+
+.snapshot-row strong {
+  color: var(--text-primary);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .scroll-panel {
   min-height: clamp(260px, 44svh, 440px);
   display: flex;
@@ -1332,9 +1645,22 @@
   }
 
   .science-layout,
+  .ritual-finder,
   .waitlist,
   .final {
     grid-template-columns: 1fr;
+  }
+
+  .ritual-finder-intro {
+    position: static;
+  }
+
+  .ritual-result {
+    grid-template-columns: 1fr;
+  }
+
+  .result-bottles img {
+    width: min(150px, 28vw);
   }
 }
 
@@ -1443,6 +1769,7 @@
   }
 
   .waitlist,
+  .ritual-finder,
   .science,
   .ingredients,
   .clean,
@@ -1457,6 +1784,37 @@
 
   .waitlist {
     gap: 22px;
+  }
+
+  .ritual-finder {
+    gap: 20px;
+  }
+
+  .ritual-quiz {
+    min-height: auto;
+    border-radius: 22px;
+  }
+
+  .ritual-options {
+    grid-template-columns: 1fr;
+  }
+
+  .ritual-option {
+    min-height: 62px;
+    padding: 14px;
+  }
+
+  .ritual-result-visual {
+    min-height: 220px;
+  }
+
+  .result-bottles img {
+    width: min(130px, 38vw);
+  }
+
+  .snapshot-row {
+    grid-template-columns: 1fr;
+    gap: 7px;
   }
 
   .waitlist-form {

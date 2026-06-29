@@ -36,6 +36,25 @@ type Formulation = {
   }>
 }
 
+type RitualOption = {
+  label: string
+  gut: number
+  skin: number
+}
+
+type RitualQuestion =
+  | {
+      type: 'choice'
+      prompt: string
+      options: RitualOption[]
+    }
+  | {
+      type: 'slider'
+      prompt: string
+    }
+
+type RitualResult = 'GUT' | 'SKIN' | 'BOTH'
+
 const ingredients: IngredientStory[] = [
   {
     name: 'Ginger',
@@ -147,6 +166,84 @@ const timeline = [
   },
 ]
 
+const ritualQuestions: RitualQuestion[] = [
+  {
+    type: 'choice',
+    prompt: 'Which best describes your lifestyle?',
+    options: [
+      { label: 'Student', gut: 1, skin: 1 },
+      { label: 'Corporate Professional', gut: 2, skin: 1 },
+      { label: 'Entrepreneur', gut: 2, skin: 1 },
+      { label: 'Parent', gut: 2, skin: 1 },
+      { label: 'Fitness Enthusiast', gut: 1, skin: 2 },
+    ],
+  },
+  {
+    type: 'choice',
+    prompt: 'What affects you the most during the week?',
+    options: [
+      { label: 'Bloating', gut: 3, skin: 0 },
+      { label: 'Acidity', gut: 3, skin: 0 },
+      { label: 'Poor Digestion', gut: 3, skin: 0 },
+      { label: 'Acne', gut: 0, skin: 3 },
+      { label: 'Dull Skin', gut: 0, skin: 3 },
+      { label: 'Uneven Skin Tone', gut: 0, skin: 3 },
+    ],
+  },
+  {
+    type: 'choice',
+    prompt: 'How many glasses of water do you drink daily?',
+    options: [
+      { label: 'Less than 4', gut: 1, skin: 2 },
+      { label: '4-6', gut: 1, skin: 1 },
+      { label: '7+', gut: 0, skin: 0 },
+    ],
+  },
+  {
+    type: 'choice',
+    prompt: 'How often do you eat outside?',
+    options: [
+      { label: 'Every day', gut: 3, skin: 0 },
+      { label: '3-5 times/week', gut: 2, skin: 1 },
+      { label: 'Rarely', gut: 0, skin: 1 },
+    ],
+  },
+  {
+    type: 'choice',
+    prompt: 'What do you wish improved first?',
+    options: [
+      { label: 'Better Digestion', gut: 3, skin: 0 },
+      { label: 'Less Bloating', gut: 3, skin: 0 },
+      { label: 'Healthy Glowing Skin', gut: 0, skin: 3 },
+      { label: 'Clearer Skin', gut: 0, skin: 3 },
+    ],
+  },
+  {
+    type: 'choice',
+    prompt: 'Which statement sounds most like you?',
+    options: [
+      { label: "I don't have time to prepare healthy drinks.", gut: 2, skin: 1 },
+      { label: 'My stomach feels heavy after meals.', gut: 3, skin: 0 },
+      { label: 'My skin feels tired.', gut: 0, skin: 3 },
+      { label: 'I want to build healthier daily habits.', gut: 1, skin: 1 },
+    ],
+  },
+  {
+    type: 'slider',
+    prompt: 'How stressful is your routine?',
+  },
+  {
+    type: 'choice',
+    prompt: 'Which best describes your goal?',
+    options: [
+      { label: 'Feel lighter after meals', gut: 3, skin: 0 },
+      { label: 'Improve gut health', gut: 3, skin: 0 },
+      { label: 'Achieve naturally healthier-looking skin', gut: 0, skin: 3 },
+      { label: 'Improve overall wellness', gut: 2, skin: 2 },
+    ],
+  },
+]
+
 const faqs = [
   {
     question: 'What makes this product DIFFERENT?',
@@ -244,6 +341,10 @@ function App() {
   const [pullProgress, setPullProgress] = useState(0)
   const [pullOpen, setPullOpen] = useState(false)
   const [activeFormulation, setActiveFormulation] = useState(formulations[0])
+  const [ritualStep, setRitualStep] = useState(0)
+  const [ritualScores, setRitualScores] = useState({ gut: 0, skin: 0 })
+  const [stressValue, setStressValue] = useState(5)
+  const [ritualResult, setRitualResult] = useState<RitualResult | null>(null)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -393,6 +494,70 @@ function App() {
     setProgress(0)
   }
 
+  const getStressPoints = (value: number) => {
+    if (value >= 8) {
+      return { gut: 2, skin: 2 }
+    }
+    if (value >= 4) {
+      return { gut: 1, skin: 1 }
+    }
+    return { gut: 0, skin: 0 }
+  }
+
+  const getRitualResult = (gut: number, skin: number): RitualResult => {
+    if (gut >= skin + 3) {
+      return 'GUT'
+    }
+    if (skin >= gut + 3) {
+      return 'SKIN'
+    }
+    return 'BOTH'
+  }
+
+  const finishRitualStep = (points: { gut: number; skin: number }) => {
+    const nextScores = {
+      gut: ritualScores.gut + points.gut,
+      skin: ritualScores.skin + points.skin,
+    }
+
+    setRitualScores(nextScores)
+
+    if (ritualStep === ritualQuestions.length - 1) {
+      setRitualResult(getRitualResult(nextScores.gut, nextScores.skin))
+      return
+    }
+
+    setRitualStep((current) => current + 1)
+  }
+
+  const handleRitualRestart = () => {
+    setRitualStep(0)
+    setRitualScores({ gut: 0, skin: 0 })
+    setStressValue(5)
+    setRitualResult(null)
+  }
+
+  const currentRitualQuestion = ritualQuestions[ritualStep]
+  const ritualProgress = ritualResult
+    ? 100
+    : Math.round(((ritualStep + 1) / ritualQuestions.length) * 100)
+  const matchScore = ritualResult === 'GUT' ? 92 : ritualResult === 'SKIN' ? 89 : 94
+  const snapshot = [
+    { label: 'Lifestyle', value: 8, status: 'Busy' },
+    { label: 'Nutrition', value: 5, status: 'Moderate' },
+    {
+      label: 'Digestive Wellness',
+      value: Math.max(4, Math.min(9, Math.round(ritualScores.gut / 2))),
+      status: ritualScores.gut >= ritualScores.skin ? 'Needs Support' : 'Steady',
+    },
+    {
+      label: 'Skin Wellness',
+      value: Math.max(4, Math.min(9, Math.round(ritualScores.skin / 2))),
+      status: ritualScores.skin > ritualScores.gut ? 'Needs Support' : 'Good',
+    },
+    { label: 'Routine Consistency', value: 3, status: 'Improving' },
+  ]
+
   const wordOpacity = (start: number) => {
     const range = 0.18
     return Math.max(0, Math.min(1, (pullProgress - start) / range))
@@ -436,8 +601,8 @@ function App() {
             <button className="btn primary" type="button" onClick={() => handleScrollTo('waitlist')}>
               Join Early Access
             </button>
-            <button className="btn secondary" type="button" onClick={() => handleScrollTo('ritual')}>
-              Explore the Ritual
+            <button className="btn secondary" type="button" onClick={() => handleScrollTo('ritual-finder')}>
+              Click to find your ritual
             </button>
           </div>
           <p className="hero-scroll">Scroll to discover the ritual.</p>
@@ -446,6 +611,169 @@ function App() {
           <div className="hero-image-frame" ref={bottleRef}>
             <img className="hero-image" src={heroWomanImage} alt="Woman holding and drinking a ShotSmith wellness bottle" />
           </div>
+        </div>
+      </section>
+
+      <section className="ritual-finder" id="ritual-finder">
+        <div className="ritual-finder-intro">
+          <p className="eyebrow">Find Your Ritual</p>
+          <h2>Discover your SHOTSMITH match.</h2>
+          <p>
+            Answer a few questions to discover which SHOTSMITH ritual best matches
+            your lifestyle.
+          </p>
+          <span className="ritual-time">Takes less than 60 seconds</span>
+        </div>
+
+        <div className={`ritual-quiz${ritualResult === 'BOTH' ? ' premium-result' : ''}`}>
+          <div className="ritual-progress-head">
+            <span>
+              {ritualResult ? 'Your result' : `Question ${ritualStep + 1} of ${ritualQuestions.length}`}
+            </span>
+            <span>{ritualProgress}%</span>
+          </div>
+          <div className="ritual-progress" aria-hidden="true">
+            <span style={{ width: `${ritualProgress}%` }} />
+          </div>
+
+          {ritualResult ? (
+            <div className="ritual-result">
+              <div className="ritual-result-copy">
+                <p className="eyebrow">Your Ritual</p>
+                {ritualResult === 'BOTH' ? (
+                  <>
+                    <h3>Your Daily Ritual GUT + SKIN</h3>
+                    <p>
+                      Because your lifestyle impacts both digestion and skin health,
+                      combining both formulations offers the most balanced daily ritual.
+                    </p>
+                  </>
+                ) : ritualResult === 'GUT' ? (
+                  <>
+                    <h3>GUT</h3>
+                    <p className="ritual-result-tag">Daily Reset</p>
+                    <p>
+                      Based on your answers, your biggest challenges are related to
+                      digestion, bloating, and maintaining a healthy routine. Your
+                      lifestyle suggests that supporting your digestive system could have
+                      the greatest impact on your daily well-being.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h3>SKIN</h3>
+                    <p className="ritual-result-tag">Cellular Glow</p>
+                    <p>
+                      Based on your answers, your primary focus is skin health.
+                      Supporting your skin from within fits your current lifestyle and
+                      wellness goals.
+                    </p>
+                  </>
+                )}
+
+                <div className="ritual-supports">
+                  <span>What it supports</span>
+                  <ul>
+                    {(ritualResult === 'GUT'
+                      ? ['Better digestion', 'Reduced bloating', 'Digestive comfort', 'Daily wellness routine']
+                      : ritualResult === 'SKIN'
+                        ? [
+                            'Skin radiance',
+                            'Healthy-looking complexion',
+                            'Daily nourishment',
+                            'Beauty from within',
+                          ]
+                        : [
+                            'Digestive balance',
+                            'Skin radiance',
+                            'Daily nourishment',
+                            'Balanced wellness routine',
+                          ]
+                    ).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="match-score">
+                  <span>Your Match Score</span>
+                  <strong>{matchScore}%</strong>
+                </div>
+
+                <div className="ritual-result-actions">
+                  <button className="btn primary" type="button" onClick={() => handleScrollTo('waitlist')}>
+                    Join Early Access
+                  </button>
+                  <button className="btn ghost" type="button" onClick={handleRitualRestart}>
+                    Retake
+                  </button>
+                </div>
+              </div>
+
+              <div className="ritual-result-visual" aria-hidden="true">
+                <div className="result-bottles">
+                  <img src={heroBottle} alt="" />
+                  {ritualResult === 'BOTH' ? <img src={heroBottle} alt="" /> : null}
+                  {ritualResult === 'BOTH' ? <span className="bottle-link" /> : null}
+                </div>
+              </div>
+
+              <div className="wellness-snapshot">
+                <h4>Your Wellness Snapshot</h4>
+                {snapshot.map((item) => (
+                  <div className="snapshot-row" key={item.label}>
+                    <span>{item.label}</span>
+                    <div className="snapshot-meter" aria-hidden="true">
+                      <span style={{ width: `${item.value * 10}%` }} />
+                    </div>
+                    <strong>{item.status}</strong>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="ritual-question">
+              <h3>{currentRitualQuestion.prompt}</h3>
+              {currentRitualQuestion.type === 'choice' ? (
+                <div className="ritual-options">
+                  {currentRitualQuestion.options.map((option) => (
+                    <button
+                      type="button"
+                      className="ritual-option"
+                      key={option.label}
+                      onClick={() => finishRitualStep({ gut: option.gut, skin: option.skin })}
+                    >
+                      <span />
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="ritual-slider">
+                  <input
+                    type="range"
+                    min="0"
+                    max="10"
+                    value={stressValue}
+                    onChange={(event) => setStressValue(Number(event.target.value))}
+                  />
+                  <div className="slider-scale">
+                    <span>0</span>
+                    <strong>{stressValue}</strong>
+                    <span>10</span>
+                  </div>
+                  <p>Stress affects both digestive and skin health.</p>
+                  <button
+                    className="btn primary"
+                    type="button"
+                    onClick={() => finishRitualStep(getStressPoints(stressValue))}
+                  >
+                    Continue
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
