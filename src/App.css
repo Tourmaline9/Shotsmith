@@ -438,7 +438,7 @@
 
 .precision-track {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
   padding: 0 var(--page-gutter) var(--section-pad);
 }
@@ -482,11 +482,6 @@
 
 .precision-panel[data-theme='skin'] {
   background: radial-gradient(circle at 80% 20%, rgba(226, 201, 170, 0.28), transparent 60%),
-    rgba(255, 255, 255, 0.9);
-}
-
-.precision-panel[data-theme='hair'] {
-  background: radial-gradient(circle at 80% 60%, rgba(122, 141, 106, 0.26), transparent 60%),
     rgba(255, 255, 255, 0.9);
 }
 
@@ -1172,7 +1167,7 @@
   right: -20px;
 }
 
-.stress-indicator.hair {
+.stress-indicator.energy {
   top: 10px;
   right: -10px;
 }
@@ -1493,7 +1488,7 @@
     right: -10px;
   }
 
-  .stress-indicator.hair {
+  .stress-indicator.energy {
     right: 0;
   }
 

@@ -58,8 +58,8 @@ const ingredients: IngredientStory[] = [
     latin: 'Rosmarinus officinalis',
     tone: 'rgba(122, 141, 106, 0.45)',
     imageUrl: 'https://images.pexels.com/photos/10098889/pexels-photo-10098889.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=800',
-    note: 'Aromatic botanicals to awaken circulation and scalp vitality.',
-    benefits: ['Revives scalp micro-flow', 'Supports stronger strands'],
+    note: 'Aromatic botanicals for a clear morning lift and focused ritual.',
+    benefits: ['Supports mental clarity', 'Refreshes the senses'],
   },
   {
     name: 'Amla',
@@ -126,29 +126,6 @@ const formulations: Formulation[] = [
       },
     ],
   },
-  {
-    orbit: 'HAIR',
-    label: '03 / HAIR FOCUS',
-    name: 'Hair Focus',
-    tagline: 'The Follicle Fuel',
-    items: [
-      {
-        ingredient: 'Steam-Distilled Rosemary (Rosmarinus officinalis) Extract',
-        detail:
-          'Clinically supported botanical that stimulates blood micro-circulation in the scalp, delivering oxygen to dormant follicles and counteracting hair thinning.',
-      },
-      {
-        ingredient: 'Bhringraj (Eclipta prostrata) & Brahmi Extract',
-        detail:
-          'Traditional adaptogenic heavyweights that deeply nourish the hair roots, strengthening the cellular structure of the hair shaft and delaying premature graying.',
-      },
-      {
-        ingredient: 'Green Apple & Aloe Vera Juice Base',
-        detail:
-          'Provides a clean, bioavailable matrix of zinc, essential vitamins, and enzymes that balance scalp pH and eliminate oxidative stress at the follicle level.',
-      },
-    ],
-  },
 ]
 
 const timeline = [
@@ -182,7 +159,7 @@ const faqs = [
       {
         title: 'Problem-Specialist vs. General Wellness',
         body:
-          'Most health drinks try to be everything at once ("Immunity Boost"). ShotSmith operates on a precise, target-driven framework focusing on explicit daily physiological pain points: GUT, SKIN, and HAIR.',
+          'Most health drinks try to be everything at once ("Immunity Boost"). ShotSmith operates on a precise, target-driven framework focusing on explicit daily physiological pain points: GUT and SKIN.',
       },
       {
         title: 'Matte Black Glass Structural Design',
@@ -247,7 +224,7 @@ const faqs = [
       {
         title: 'Relief from Hidden Anxiety (The Security Trigger)',
         body:
-          'Modern lifestyles induce silent anxieties regarding digital screen fatigue, bloating from processed diets, and pollution-induced hair thinning. ShotSmith acts as an elite, invisible biological shield, giving consumers confidence that their core health parameters are fully taken care of.',
+          'Modern lifestyles induce silent anxieties around digital screen fatigue, bloating from processed diets, and visible skin stress. ShotSmith acts as an elite, invisible biological shield, giving consumers confidence that their core health parameters are fully taken care of.',
       },
     ],
   },
@@ -453,8 +430,7 @@ function App() {
             The 50ml Daily Ritual for High-Performers.
           </motion.h1>
           <p className="hero-sub">
-            Cold-pressed botanical formulations engineered for GUT, SKIN, and HAIR
-            optimization.
+            Cold-pressed botanical formulations engineered for GUT and SKIN optimization.
           </p>
           <div className="hero-cta">
             <button className="btn primary" type="button" onClick={() => handleScrollTo('waitlist')}>
@@ -506,8 +482,7 @@ function App() {
             <select name="focus">
               <option>GUT</option>
               <option>SKIN</option>
-              <option>HAIR</option>
-              <option>All Three</option>
+              <option>Both</option>
             </select>
           </label>
           <label>
@@ -515,7 +490,6 @@ function App() {
             <select name="challenge">
               <option>Digestion</option>
               <option>Skin Health</option>
-              <option>Hair Health</option>
               <option>Energy</option>
               <option>Stress</option>
               <option>Convenience</option>
@@ -566,11 +540,11 @@ function App() {
                   <span>Dullness</span>
                 </div>
                 <div
-                  className="stress-indicator hair"
+                  className="stress-indicator energy"
                   style={{ opacity: pullProgress > 0.62 ? 1 : 0 }}
                 >
-                  <strong>Hair</strong>
-                  <span>Weak follicle</span>
+                  <strong>Energy</strong>
+                  <span>Drain</span>
                 </div>
               </div>
               <p
@@ -619,7 +593,7 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true, amount: 0.5 }}
           >
-            Precision formulations for GUT, SKIN, and HAIR.
+            Precision formulations for GUT and SKIN.
           </motion.h2>
         </div>
         <div className="precision-track">
@@ -642,15 +616,6 @@ function App() {
             <details>
               <summary>Ingredient focus</summary>
               <p>Beetroot, turmeric, and citrus for clarity and luminous tone.</p>
-            </details>
-          </article>
-          <article className="precision-panel" data-theme="hair">
-            <div className="panel-meta">03 / HAIR FOCUS</div>
-            <h3>Strengthen the follicle ritual.</h3>
-            <p>Herbal extracts that support scalp balance and stronger, fuller strands.</p>
-            <details>
-              <summary>Ingredient focus</summary>
-              <p>Rosemary, bhringraj, and aloe for nourishment and resilience.</p>
             </details>
           </article>
         </div>
