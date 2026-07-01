@@ -1365,6 +1365,32 @@
   color: var(--text-primary);
 }
 
+.waitlist-form button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.form-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.form-message.error {
+  border: 1px solid rgba(160, 60, 45, 0.26);
+  background: rgba(160, 60, 45, 0.08);
+  color: #7c2d22;
+}
+
+.form-message.success {
+  border: 1px solid rgba(91, 122, 74, 0.28);
+  background: rgba(91, 122, 74, 0.1);
+  color: #3e5f35;
+}
+
 .pull-story {
   padding: var(--section-pad) var(--page-gutter);
   background: linear-gradient(180deg, #f9f3ea, #f1e7d7);

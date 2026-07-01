@@ -55,6 +55,11 @@ type RitualQuestion =
 
 type RitualResult = 'GUT' | 'SKIN' | 'BOTH'
 
+type RitualAnswer = {
+  question: string
+  answer: string
+}
+
 const ingredients: IngredientStory[] = [
   {
     name: 'Ginger',
@@ -345,6 +350,10 @@ function App() {
   const [ritualScores, setRitualScores] = useState({ gut: 0, skin: 0 })
   const [stressValue, setStressValue] = useState(5)
   const [ritualResult, setRitualResult] = useState<RitualResult | null>(null)
+  const [ritualAnswers, setRitualAnswers] = useState<RitualAnswer[]>([])
+  const [waitlistStatus, setWaitlistStatus] = useState('')
+  const [waitlistError, setWaitlistError] = useState('')
+  const [isSubmittingWaitlist, setIsSubmittingWaitlist] = useState(false)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -487,11 +496,62 @@ function App() {
     setProgress(0)
   }
 
-  const handleWaitlistSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const saveQuestionnaireResult = async (
+    result: RitualResult,
+    scores: { gut: number; skin: number },
+    answers: RitualAnswer[],
+  ) => {
+    try {
+      await fetch('/api/questionnaires', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          result,
+          gutScore: scores.gut,
+          skinScore: scores.skin,
+          matchScore: result === 'GUT' ? 92 : result === 'SKIN' ? 89 : 94,
+          answers,
+        }),
+      })
+    } catch (error) {
+      console.error('Unable to save questionnaire result', error)
+    }
+  }
+
+  const handleWaitlistSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setHasSubmitted(true)
-    setPullOpen(false)
-    setProgress(0)
+    setWaitlistError('')
+    setWaitlistStatus('')
+    setIsSubmittingWaitlist(true)
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const payload = Object.fromEntries(formData.entries())
+
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = (await response.json()) as { message?: string }
+
+      if (!response.ok) {
+        setWaitlistError(data.message ?? 'We could not save your details. Please try again.')
+        return
+      }
+
+      form.reset()
+      setWaitlistStatus(data.message ?? 'You are on the list.')
+      setHasSubmitted(true)
+      setPullOpen(false)
+      setProgress(0)
+    } catch (error) {
+      console.error('Unable to submit waitlist form', error)
+      setWaitlistError('Please start the API server, then try again.')
+    } finally {
+      setIsSubmittingWaitlist(false)
+    }
   }
 
   const getStressPoints = (value: number) => {
@@ -514,16 +574,26 @@ function App() {
     return 'BOTH'
   }
 
-  const finishRitualStep = (points: { gut: number; skin: number }) => {
+  const finishRitualStep = (points: { gut: number; skin: number }, answer: string) => {
     const nextScores = {
       gut: ritualScores.gut + points.gut,
       skin: ritualScores.skin + points.skin,
     }
+    const nextAnswers = [
+      ...ritualAnswers,
+      {
+        question: currentRitualQuestion.prompt,
+        answer,
+      },
+    ]
 
     setRitualScores(nextScores)
+    setRitualAnswers(nextAnswers)
 
     if (ritualStep === ritualQuestions.length - 1) {
-      setRitualResult(getRitualResult(nextScores.gut, nextScores.skin))
+      const result = getRitualResult(nextScores.gut, nextScores.skin)
+      setRitualResult(result)
+      void saveQuestionnaireResult(result, nextScores, nextAnswers)
       return
     }
 
@@ -535,6 +605,7 @@ function App() {
     setRitualScores({ gut: 0, skin: 0 })
     setStressValue(5)
     setRitualResult(null)
+    setRitualAnswers([])
   }
 
   const currentRitualQuestion = ritualQuestions[ritualStep]
@@ -741,7 +812,7 @@ function App() {
                       type="button"
                       className="ritual-option"
                       key={option.label}
-                      onClick={() => finishRitualStep({ gut: option.gut, skin: option.skin })}
+                      onClick={() => finishRitualStep({ gut: option.gut, skin: option.skin }, option.label)}
                     >
                       <span />
                       {option.label}
@@ -766,7 +837,7 @@ function App() {
                   <button
                     className="btn primary"
                     type="button"
-                    onClick={() => finishRitualStep(getStressPoints(stressValue))}
+                    onClick={() => finishRitualStep(getStressPoints(stressValue), String(stressValue))}
                   >
                     Continue
                   </button>
@@ -799,11 +870,15 @@ function App() {
         <form className="waitlist-form" onSubmit={handleWaitlistSubmit}>
           <label>
             Name
-            <input type="text" name="name" placeholder="Full name" />
+            <input type="text" name="name" placeholder="Full name" required />
           </label>
           <label>
             Email
-            <input type="email" name="email" placeholder="you@domain.com" />
+            <input type="email" name="email" placeholder="you@domain.com" required />
+          </label>
+          <label>
+            Phone
+            <input type="tel" name="phone" placeholder="+91 98765 43210" required />
           </label>
           <label>
             Which formulation interests you most?
@@ -827,8 +902,10 @@ function App() {
             What other wellness rituals would you love simplified into a daily shot?
             <textarea name="rituals" rows={3} placeholder="Your ideas" />
           </label>
-          <button className="btn primary" type="submit">
-            Join the First Batch
+          {waitlistError ? <p className="form-message error">{waitlistError}</p> : null}
+          {waitlistStatus ? <p className="form-message success">{waitlistStatus}</p> : null}
+          <button className="btn primary" type="submit" disabled={isSubmittingWaitlist}>
+            {isSubmittingWaitlist ? 'Saving...' : 'Join the First Batch'}
           </button>
         </form>
       </section>
