@@ -9,6 +9,7 @@
     "dev:ui": "vite",
     "dev:full": "concurrently \"npm run dev:api\" \"npm run dev:ui\"",
     "build": "tsc -b && vite build",
+    "start": "node server.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

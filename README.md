@@ -18,6 +18,13 @@ npm run dev
 
 This starts both the Vite frontend and the API server so form submissions can be saved.
 
+## Deploy
+
+1. Run `npm run build` to create the production frontend in `dist/`.
+2. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` on the deployment host.
+3. Start the app with `npm start`.
+4. The Express server serves the built React app and handles `/api/*` requests from the same origin.
+
 ## Build
 
 ```bash

@@ -4,15 +4,11 @@ import { motion } from 'framer-motion'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import heroWomanImage from '../ChatGPT Image Jun 18, 2026, 06_32_36 AM.png'
 import heroBottle from './assets/hero.png'
+import formulationMatrixImage from './assets/ChatGPT Image Jun 18, 2026, 06_39_33 AM.png'
 import whyWoman from './assets/why-woman.png'
 import './App.css'
-
-const heroWomanImage =
-  'https://raw.githubusercontent.com/Tourmaline9/Shotsmith/43e7877b97531d92a45fb271e149c06cd84b862c/ChatGPT%20Image%20Jun%2018%2C%202026%2C%2006_32_36%20AM.png'
-
-const formulationMatrixImage =
-  'https://raw.githubusercontent.com/Tourmaline9/Shotsmith/43e7877b97531d92a45fb271e149c06cd84b862c/ChatGPT%20Image%20Jun%2018%2C%202026%2C%2006_39_33%20AM.png'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -680,7 +676,7 @@ function App() {
         </div>
         <div className="hero-media">
           <div className="hero-image-frame" ref={bottleRef}>
-            <img className="hero-image" src={heroWomanImage} alt="Woman holding and drinking a ShotSmith wellness bottle" />
+            <img className="hero-image" src={heroWomanImage} alt="ShotSmith wellness bottle" />
           </div>
         </div>
       </section>

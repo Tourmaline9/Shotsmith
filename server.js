@@ -2,6 +2,8 @@ import 'dotenv/config'
 import cors from 'cors'
 import express from 'express'
 import { createClient } from '@supabase/supabase-js'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const port = Number(process.env.PORT ?? 4000)
 const supabaseUrl = process.env.SUPABASE_URL
@@ -17,6 +19,9 @@ const supabase =
     : null
 
 const app = express()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const distPath = path.join(__dirname, 'dist')
 
 app.use(cors({ origin: true }))
 app.use(express.json({ limit: '1mb' }))
@@ -126,6 +131,12 @@ app.post('/api/questionnaires', async (req, res) => {
   }
 
   res.status(201).json({ id: data.id, message: 'Questionnaire saved.' })
+})
+
+app.use(express.static(distPath))
+
+app.get(/^(?!\/api).*/, (_req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'))
 })
 
 app.listen(port, () => {
