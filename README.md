@@ -16,6 +16,8 @@ npm install
 npm run dev
 ```
 
+This starts both the Vite frontend and the API server so form submissions can be saved.
+
 ## Build
 
 ```bash
